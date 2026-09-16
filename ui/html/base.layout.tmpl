@@ -13,8 +13,23 @@
             <h1><a href="/">snippetbox</a></h1>
         </header>
         <nav>
-            <a href="/">home</a>
-            <a href="/snippet/create">create snippet</a>
+            <div>
+                <a href="/">home</a>
+                {{if .IsAuthenticated}}
+                    <a href="/snippet/create">create snippet</a>
+                {{end}}
+            </div>
+            <div>
+                {{if .IsAuthenticated}}
+                    <form action="/user/logout" method="post">
+                        <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                        <button>logout</button>
+                    </form>
+                {{else}}
+                    <a href="/user/signup">signup</a>
+                    <a href="/user/login">login</a>
+                {{end}}
+            </div>
         </nav>
         <main>
             {{with .Flash}}
